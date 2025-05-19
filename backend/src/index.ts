@@ -8,13 +8,11 @@ type RequestMethod =  {
     messege: string | ""
  }  
 }
-
 type SocketArr  = {
     roomId : string,
     socket : WebSocket
 } 
 let socketArr : SocketArr[] = []; 
-
 wss.on("connection",(socket)=>{
     socketArr.push({
         roomId:"" ,
@@ -49,13 +47,11 @@ wss.on("connection",(socket)=>{
                 return ; 
             }
             socketArr.forEach((object)=>{
-                if(object.socket!=socket && object.roomId == filteredUser[0].roomId){
-                    object.socket.send(messege.toString());
+                if( object.roomId == filteredUser[0].roomId){
+                    object.socket.send(actualJson.payload.messege);
                 }
             })
        }
-        // Handling of joining and sending
-       
    }) 
     socket.on("open",()=>{
         socket.send("The chat is open");

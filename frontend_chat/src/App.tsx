@@ -16,7 +16,20 @@ function App() {
     console.log("Error whiel getting data ",err);
   })
 },[]);
-function sendMessage(){
+const  joinRoom = ()=>{
+  // 
+  if(!socket){
+   return ; 
+  }
+  const joiningReq = {
+    type:"join",
+    payload:{
+      roomId : roomIdRef.current?.value || ""
+    }
+  }
+    socket.send(JSON.stringify(joiningReq));
+}
+const  sendMessage = ()=>{
   if(!socket){
     alert("Hey! Not connected to any server ");
     return ; 
@@ -42,13 +55,12 @@ function sendMessage(){
           </div>
           <div >
             <input  className={`p-2 `} ref={roomIdRef}  placeholder='Enter Room iD '></input>
-            <button className='p-2 ' >Join Room</button>
+            <button className='p-2 '  onClick={joinRoom}>Join Room</button>
           </div>
 
         </div>
          <div className='h-40'>
-          {JSON.stringify(messege)}
-           
+           {messege.map((Chunk)=><div>{Chunk}</div>)}          
         </div>
         <div className="flex justify-center">
           <input  className={`p-2 m-2`} ref={inpref} placeholder='Messege'></input>
